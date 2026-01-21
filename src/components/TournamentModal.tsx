@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, MapPin, Trophy, MessageCircle, QrCode, ArrowLeft } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, Trophy, MessageCircle, QrCode, ArrowLeft, Monitor, Gamepad2, Swords } from 'lucide-react';
 import type { Tournament } from '../data/tournaments';
 
 interface Props {
@@ -87,6 +87,36 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
                         <span className="info-label-sm" style={{ fontSize: '0.8em', color: '#aaa' }}>Salón: {selectedTournament.location}</span>
                       </div>
                     </div>
+
+                    {selectedTournament.platform && (
+                      <div className="info-item">
+                        <Gamepad2 className="info-icon" size={20} />
+                        <div>
+                          <span className="info-label">Plataforma</span>
+                          <p>{selectedTournament.platform}</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedTournament.machineCount && (
+                      <div className="info-item">
+                        <Monitor className="info-icon" size={20} />
+                        <div>
+                          <span className="info-label">Setup</span>
+                          <p>{selectedTournament.machineCount} Equipos</p>
+                        </div>
+                      </div>
+                    )}
+
+                    {selectedTournament.format && (
+                      <div className="info-item">
+                        <Swords className="info-icon" size={20} />
+                        <div>
+                          <span className="info-label">Formato</span>
+                          <p>{selectedTournament.format}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="description-box">
