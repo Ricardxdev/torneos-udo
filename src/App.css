@@ -1,0 +1,504 @@
+.container {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  /* Deep black background with visible purple gas accents */
+  background-color: #020105;
+  background-image: 
+    radial-gradient(circle at 50% -10%, rgba(130, 80, 230, 0.15) 0%, transparent 60%),
+    radial-gradient(circle at 5% 40%, rgba(110, 40, 210, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 95% 60%, rgba(110, 40, 210, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 50% 110%, rgba(130, 80, 230, 0.25) 0%, transparent 60%);
+  overflow-y: auto;
+  perspective: 1000px; /* Optional global perspective */
+}
+
+.gallery {
+  width: 100%;
+  padding: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex: 1;
+}
+
+.app-header {
+  width: 100%;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(5px);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid rgba(130, 80, 230, 0.2);
+}
+
+.udo-logo {
+  height: 80px; /* Adjust as needed */
+  width: auto;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+}
+
+.app-title {
+  color: #fff;
+  margin-left: 1.5rem;
+  font-size: 2.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 3px;
+  text-shadow: 
+    0 0 10px rgba(130, 80, 230, 0.8),
+    0 0 20px rgba(130, 80, 230, 0.4);
+  background: linear-gradient(to right, #fff, #d0b0ff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.cta-text {
+  color: #fff;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  margin-bottom: 3rem;
+  text-align: center;
+  font-weight: 500;
+  text-shadow: 0 0 10px rgba(130, 80, 230, 0.8);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.8; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+  100% { opacity: 0.8; transform: scale(1); }
+}
+
+.info-section {
+  max-width: 800px;
+  width: 90%;
+  padding: 2rem;
+  margin-bottom: 4rem;
+  background: rgba(20, 20, 30, 0.6);
+  border: 1px solid rgba(130, 80, 230, 0.3);
+  border-radius: 12px;
+  color: #e0e0e0;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+
+.info-section h2 {
+  color: #a060ff;
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+.info-section p {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.info-section strong {
+  color: #fff;
+  color: #d0b0ff;
+}
+
+.controls {
+  margin: 1rem 0;
+  z-index: 10;
+}
+
+
+.banner-card {
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  border: 1px solid #333;
+  position: static;
+  margin: 0;
+  max-height: none;
+  aspect-ratio: auto;
+  border-radius: 8px; /* Slightly smaller radius for 3D look */
+  overflow: hidden;
+  background-color: #000;
+  backface-visibility: hidden; /* Important for performance */
+}
+
+.banner-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none; /* Prevents browser image drag behavior interfering with carousel swipe */
+  user-select: none;
+}
+
+/* 3D Carousel Implementation */
+.scene {
+  position: relative;
+  perspective: 1000px;
+  /* width and height are set inline in React based on cellWidth */
+  margin: 0 auto;
+}
+
+.carousel {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transform-style: preserve-3d;
+  /* transition is handled by Framer Motion */
+}
+
+.carousel-cell {
+  position: absolute;
+  left: 0;
+  top: 0;
+  /* Width/Height/Transform set inline */
+  /* backface-visibility: hidden;  <-- Optional: might want to see backs of cards */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* overflow: hidden; */ 
+}
+
+/* Hide navigation buttons for cleaner look, rely on swipe/autoplay */
+.nav-btn {
+  display: none;
+}
+
+.nav-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex !important; /* Force display for now to test */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.1);
+}
+
+.dots {
+  position: absolute;
+  bottom: 2rem;
+  z-index: 20;
+}
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+}
+
+.modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  background: #1a1a1a;
+  border-radius: 20px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  z-index: 101;
+  overflow-y: auto;
+  border: 1px solid #333;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(0,0,0,0.5);
+  border: none;
+  color: white;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 10;
+  transition: background 0.2s;
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.8);
+}
+
+.modal-header {
+  position: relative;
+  width: 100%;
+  height: 200px;
+}
+
+.modal-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.modal-title-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  padding: 2rem 1.5rem 1rem;
+  background: linear-gradient(to top, #1a1a1a, transparent);
+}
+
+.modal-title {
+  font-size: 1.8rem;
+  margin: 0;
+  color: #fff;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2 columns for compact look */
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Ensure full width on very small screens if needed */
+@media (max-width: 350px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: #252525;
+  padding: 0.8rem;
+  border-radius: 10px;
+}
+
+.info-icon {
+  color: #646cff;
+  min-width: 20px;
+}
+
+.info-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #888;
+  margin-bottom: 0.1rem;
+}
+
+.info-item p {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #eee;
+  line-height: 1.2;
+}
+
+.description-box {
+  background: rgba(100, 108, 255, 0.1);
+  border-left: 3px solid #646cff;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 0 8px 8px 0;
+  text-align: left;
+}
+
+.description-box p {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #ddd;
+}
+
+.details-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.detail-column .section-title {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0 0 0.8rem 0;
+  font-size: 1.1rem;
+  color: #fff;
+}
+
+.modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.modal-list li {
+  padding: 0.5rem 0.8rem;
+  margin-bottom: 0.5rem;
+  background: #2a2a2a;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  color: #ccc;
+  border-left: 2px solid #555;
+}
+
+.modal-action-btn {
+  margin-top: 0;
+  width: 100%;
+  padding: 1.2rem;
+  font-size: 1.1rem;
+  background: linear-gradient(135deg, #646cff 0%, #535bf2 100%);
+  box-shadow: 0 4px 15px rgba(100, 108, 255, 0.4);
+  color: white !important;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  text-decoration: none;
+  font-weight: 600;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.modal-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(100, 108, 255, 0.6);
+}
+
+.udo-logo {
+  height: 60px;
+  margin-bottom: 1rem;
+}
+
+/* Carousel Styles */
+.carousel-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.carousel-viewport {
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Important for sliding effect */
+  border-radius: 12px;
+}
+
+.carousel-controls {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  z-index: 10;
+}
+
+.nav-btn {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex !important; /* Force display for now to test */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.3);
+  transform: scale(1.1);
+}
+
+.nav-btn:active {
+  transform: scale(0.95);
+}
+
+.dots {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #444;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.dot.active {
+  background: #646cff;
+  transform: scale(1.2);
+}
+
+.controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+  background: rgba(0,0,0,0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.controls label {
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controls input[type="radio"] {
+  cursor: pointer;
+  accent-color: #646cff;
+}
