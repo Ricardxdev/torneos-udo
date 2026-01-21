@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# Torneos UDO - EICA
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web interactiva diseñada para la visualización y difusión de los torneos de e-sports y eventos culturales organizados en la EICA - UDO Nueva Esparta.
 
-Currently, two official plugins are available:
+![Demo de la aplicación](./public/demo.png)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🎮 Descripción
 
-## React Compiler
+Este proyecto sirve como cartelera digital para la semana de torneos. Los usuarios pueden navegar a través de una interfaz moderna con un carrusel 3D para explorar los diferentes torneos disponibles, ver detalles específicos como, fechas, horarios, ubicación (Edificio/Salón), premios y acceder directamente a los canales de inscripción.
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+## 🏆 Torneos y Eventos
 
-## Expanding the ESLint configuration
+La plataforma cubre una variedad de competiciones para la semana del 26 al 30 de Enero de 2026:
+- **Mortal Kombat 2011** (Lunes)
+- **Project M** (Martes)
+- **Super Smash Flash 2** (Miércoles)
+- **Dragon Ball FighterZ** (Jueves)
+- **K-Pop Demon Hunter** (Viernes)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## ✨ Características
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- **Diseño Interactivo:** Carrusel 3D fluido para la selección de juegos.
+- **Información Detallada:** Modales informativos con cronogramas, ubicación exacta y tabla de premios.
+- **Conectividad:** Enlaces directos a grupos de WhatsApp y códigos QR para cada torneo.
+- **Animaciones:** Transiciones suaves y efectos visuales modernos.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## 🛠️ Tecnologías
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **React** + **Vite**
+- **TypeScript**
+- **Framer Motion**
+- **Lucide React**
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🚀 Ejecución
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+1. Instalar dependencias:
+   ```bash
+   npm install
+   ```
+2. Iniciar servidor de desarrollo:
+   ```bash
+   npm run dev
+   ```
