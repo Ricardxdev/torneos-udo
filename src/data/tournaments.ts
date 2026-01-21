@@ -10,6 +10,9 @@ export interface Tournament {
   description: string;
   whatsappLink?: string;
   qrCode?: string;
+  machineCount?: number;
+  platform?: string;
+  format?: string;
 }
 
 export const tournaments: Tournament[] = [
@@ -24,7 +27,10 @@ export const tournaments: Tournament[] = [
     prizes: ['1er Lugar: 20$', '2do Lugar: 5$', '3er Lugar: 3$'],
     description: '¡Finish Him! El torneo más brutal regresa.',
     whatsappLink: 'https://chat.whatsapp.com/DOnh33pG5gE0J5qMlEM4u3',
-    qrCode: '/qrs/mk9.png'
+    qrCode: '/qrs/mk9.png',
+    machineCount: 2,
+    platform: 'PS3',
+    format: 'Eliminación Directa'
   },
   {
     id: 'projectm',
@@ -37,7 +43,10 @@ export const tournaments: Tournament[] = [
     prizes: ['1er Lugar: 20$', '2do Lugar: 5$', '3er Lugar: 3$'],
     description: 'El mod definitivo de Smash llega a la EICA. ¿Estás listo?',
     whatsappLink: 'https://chat.whatsapp.com/KNthwOiu3Hh87em5rCSVio',
-    qrCode: '/qrs/projectm.png'
+    qrCode: '/qrs/projectm.png',
+    machineCount: 2,
+    platform: 'PC/Laptop',
+    format: 'Eliminación Directa'
   },
   {
     id: 'brawl',
@@ -50,7 +59,10 @@ export const tournaments: Tournament[] = [
     prizes: ['1er Lugar: 20$', '2do Lugar: 5$', '3er Lugar: 3$'],
     description: 'El clásico de navegador llevado al siguiente nivel competitivo.',
     whatsappLink: 'https://chat.whatsapp.com/FqtgsYEDNgt1r2x1kHzSxm',
-    qrCode: '/qrs/ssf2.png'
+    qrCode: '/qrs/ssf2.png',
+    machineCount: 2,
+    platform: 'PC/Laptop',
+    format: 'Eliminación Directa'
   },
   {
     id: 'fighterz',
@@ -63,7 +75,10 @@ export const tournaments: Tournament[] = [
     prizes: ['1er Lugar: 20$', '2do Lugar: 5$', '3er Lugar: 3$'],
     description: 'Demuestra tu ki en este torneo explosivo de Dragon Ball FighterZ.',
     whatsappLink: 'https://chat.whatsapp.com/FgvgyJzO7U3Fe2eOjitMHx',
-    qrCode: '/qrs/fighterz.png'
+    qrCode: '/qrs/fighterz.png',
+    machineCount: 2,
+    platform: 'PC/Laptop',
+    format: 'Eliminación Directa'
   },
   {
     id: 'kpop-dh',
