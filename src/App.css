@@ -1,4 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Special+Gothic+Expanded+One&family=TASA+Orbiter:wght@400..800&family=TikTok+Sans:opsz,wght@12..36,300..900&display=swap');
+
 .container {
+  --background-image: url('/public/mesh-24.png');
   width: 100%;
   min-height: 100vh;
   margin: 0;
@@ -8,14 +11,14 @@
   justify-content: flex-start;
   align-items: center;
   /* Deep black background with visible purple gas accents */
-  background-color: #020105;
-  background-image: 
-    radial-gradient(circle at 50% -10%, rgba(130, 80, 230, 0.15) 0%, transparent 60%),
-    radial-gradient(circle at 5% 40%, rgba(110, 40, 210, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 95% 60%, rgba(110, 40, 210, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 50% 110%, rgba(130, 80, 230, 0.25) 0%, transparent 60%);
+  background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    var(--background-image);
+  backdrop-filter: blur(40px);
+  background-size: cover;
+  background-position: center;
   overflow-y: auto;
-  perspective: 1000px; /* Optional global perspective */
+  perspective: 1000px;
+  /* Optional global perspective */
 }
 
 .gallery {
@@ -30,7 +33,6 @@
 
 .app-header {
   width: 100%;
-  padding: 1rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,7 +45,8 @@
 }
 
 .udo-logo {
-  height: 80px; /* Adjust as needed */
+  height: 60px;
+  /* Adjust as needed */
   width: auto;
   filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
 }
@@ -51,11 +54,12 @@
 .app-title {
   color: #fff;
   margin-left: 1.5rem;
-  font-size: 2.5rem;
+  font-family: 'Special Gothic Expanded One', sans-serif;
+  font-size: 2rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 3px;
-  text-shadow: 
+  text-shadow:
     0 0 10px rgba(130, 80, 230, 0.8),
     0 0 20px rgba(130, 80, 230, 0.4);
   background: linear-gradient(to right, #fff, #d0b0ff);
@@ -76,9 +80,20 @@
 }
 
 @keyframes pulse {
-  0% { opacity: 0.8; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0.8; transform: scale(1); }
+  0% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+
+  100% {
+    opacity: 0.8;
+    transform: scale(1);
+  }
 }
 
 .info-section {
@@ -123,16 +138,18 @@
 .banner-card {
   width: 100%;
   height: 100%;
-  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
   border: 1px solid #333;
   position: static;
   margin: 0;
   max-height: none;
   aspect-ratio: auto;
-  border-radius: 8px; /* Slightly smaller radius for 3D look */
+  border-radius: 8px;
+  /* Slightly smaller radius for 3D look */
   overflow: hidden;
   background-color: #000;
-  backface-visibility: hidden; /* Important for performance */
+  backface-visibility: hidden;
+  /* Important for performance */
 }
 
 .banner-image {
@@ -140,7 +157,8 @@
   height: 100%;
   object-fit: cover;
   display: block;
-  pointer-events: none; /* Prevents browser image drag behavior interfering with carousel swipe */
+  pointer-events: none;
+  /* Prevents browser image drag behavior interfering with carousel swipe */
   user-select: none;
 }
 
@@ -169,7 +187,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* overflow: hidden; */ 
+  /* overflow: hidden; */
 }
 
 /* Hide navigation buttons for cleaner look, rely on swipe/autoplay */
@@ -178,21 +196,22 @@
 }
 
 .nav-btn {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   color: white;
   width: 40px;
   height: 40px;
   border-radius: 50%;
   cursor: pointer;
-  display: flex !important; /* Force display for now to test */
+  display: flex !important;
+  /* Force display for now to test */
   align-items: center;
   justify-content: center;
   transition: all 0.2s;
 }
 
 .nav-btn:hover {
-  background: rgba(255,255,255,0.3);
+  background: rgba(255, 255, 255, 0.3);
   transform: scale(1.1);
 }
 
@@ -225,7 +244,7 @@
   max-height: 90vh;
   background: #1a1a1a;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
   z-index: 101;
   overflow-y: auto;
   border: 1px solid #333;
@@ -235,7 +254,7 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   color: white;
   width: 36px;
@@ -250,7 +269,7 @@
 }
 
 .close-btn:hover {
-  background: rgba(0,0,0,0.8);
+  background: rgba(0, 0, 0, 0.8);
 }
 
 .modal-header {
@@ -278,7 +297,7 @@
   font-size: 1.8rem;
   margin: 0;
   color: #fff;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .modal-body {
@@ -287,16 +306,38 @@
 
 .info-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr); /* 2 columns for compact look */
+  grid-template-columns: repeat(2, 1fr);
+  /* 2 columns for compact look */
   gap: 1rem;
   margin-bottom: 1.5rem;
 }
 
-/* Ensure full width on very small screens if needed */
-@media (max-width: 350px) {
-  .info-grid {
-    grid-template-columns: 1fr;
-  }
+.controls {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  display: flex;
+  gap: 1rem;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.controls label {
+  color: #fff;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.controls input[type="radio"] {
+  cursor: pointer;
+  accent-color: #646cff;
 }
 
 .info-item {
@@ -398,107 +439,133 @@
   box-shadow: 0 6px 20px rgba(100, 108, 255, 0.6);
 }
 
-.udo-logo {
-  height: 60px;
-  margin-bottom: 1rem;
-}
+/* Ensure full width on very small screens if needed */
+@media (max-width: 750px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
 
-/* Carousel Styles */
-.carousel-container {
-  width: 100%;
-  max-width: 600px;
-  margin: 0 auto;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-}
+  .udo-logo {
+    height: 60px;
+    margin-left: 30px;
+  }
 
-.carousel-viewport {
-  width: 100%;
-  aspect-ratio: 16/9;
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden; /* Important for sliding effect */
-  border-radius: 12px;
-}
+  .app-title {
+    font-size: 1.5rem;
+    margin-left: 0;
+  }
 
-.carousel-controls {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  z-index: 10;
-}
+  /* Carousel Styles */
+  .carousel-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
 
-.nav-btn {
-  background: rgba(255,255,255,0.1);
-  border: 1px solid rgba(255,255,255,0.2);
-  color: white;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  cursor: pointer;
-  display: flex !important; /* Force display for now to test */
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s;
-}
+  .carousel-viewport {
+    width: 100%;
+    aspect-ratio: 16/9;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    /* Important for sliding effect */
+    border-radius: 12px;
+  }
 
-.nav-btn:hover {
-  background: rgba(255,255,255,0.3);
-  transform: scale(1.1);
-}
+  .carousel-controls {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    z-index: 10;
+  }
 
-.nav-btn:active {
-  transform: scale(0.95);
-}
+  .nav-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex !important;
+    /* Force display for now to test */
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
 
-.dots {
-  display: flex;
-  gap: 0.5rem;
-}
+  .nav-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.1);
+  }
 
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #444;
-  cursor: pointer;
-  transition: background 0.3s, transform 0.3s;
-}
+  .nav-btn:active {
+    transform: scale(0.95);
+  }
 
-.dot.active {
-  background: #646cff;
-  transform: scale(1.2);
-}
+  .dots {
+    display: flex;
+    gap: 0.5rem;
+  }
 
-.controls {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
-  display: flex;
-  gap: 1rem;
-  background: rgba(0,0,0,0.5);
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(255,255,255,0.1);
-}
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #444;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+  }
 
-.controls label {
-  color: #fff;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+  .dot.active {
+    background: #646cff;
+    transform: scale(1.2);
+  }
 
-.controls input[type="radio"] {
-  cursor: pointer;
-  accent-color: #646cff;
+  .controls {
+    top: 1rem;
+    right: 1rem;
+    z-index: 1000;
+    display: flex;
+    gap: 1rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .controls label {
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .controls input[type="radio"] {
+    cursor: pointer;
+    accent-color: #646cff;
+  }
+
+  .gallery {
+    margin-top: var(--margin-top-gallery);
+    transition: margin-top 0.2s;
+    padding-top: 0;
+  }
+
+  .cta-text {
+    margin-top: var(--margin-top-cta-text);
+    transition: margin-top 0.2s;
+    font-size: 1rem;
+  }
+
 }

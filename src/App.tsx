@@ -8,6 +8,9 @@ function App() {
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null)
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
 
+  const marginTopGallery = orientation === 'horizontal' ? '2rem' : '2.8rem';
+  const marginTopCtaText = orientation === 'horizontal' ? '2rem' : '6rem';
+
   return (
     <div className="container">
       <header className="app-header">
@@ -17,33 +20,33 @@ function App() {
 
       <div className="controls">
         <label>
-          <input 
-            type="radio" 
-            name="orientation" 
-            value="horizontal" 
-            checked={orientation === 'horizontal'} 
-            onChange={() => setOrientation('horizontal')} 
+          <input
+            type="radio"
+            name="orientation"
+            value="horizontal"
+            checked={orientation === 'horizontal'}
+            onChange={() => setOrientation('horizontal')}
           /> Horizontal
         </label>
         <label>
-          <input 
-            type="radio" 
-            name="orientation" 
-            value="vertical" 
-            checked={orientation === 'vertical'} 
-            onChange={() => setOrientation('vertical')} 
+          <input
+            type="radio"
+            name="orientation"
+            value="vertical"
+            checked={orientation === 'vertical'}
+            onChange={() => setOrientation('vertical')}
           /> Vertical
         </label>
       </div>
 
-      <main className="gallery">
-        <Carousel 
-          tournaments={tournaments} 
-          onSelect={setSelectedTournament} 
+      <main className="gallery" style={{ '--margin-top-gallery': marginTopGallery } as React.CSSProperties}>
+        <Carousel
+          tournaments={tournaments}
+          onSelect={setSelectedTournament}
           orientation={orientation}
           showControls={false}
         />
-        <p className="cta-text">Selecciona el evento del cual deseas formar parte</p>
+        <p className="cta-text" style={{ '--margin-top-cta-text': marginTopCtaText } as React.CSSProperties}>Selecciona el evento del cual deseas formar parte</p>
 
         <section className="info-section">
           <h2>Sobre el Evento</h2>
@@ -56,9 +59,9 @@ function App() {
         </section>
       </main>
 
-      <TournamentModal 
-        selectedTournament={selectedTournament} 
-        onClose={() => setSelectedTournament(null)} 
+      <TournamentModal
+        selectedTournament={selectedTournament}
+        onClose={() => setSelectedTournament(null)}
       />
     </div>
   )

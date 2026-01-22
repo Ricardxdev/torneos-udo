@@ -11,9 +11,9 @@ interface CarouselProps {
   showControls?: boolean;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({ 
-  tournaments, 
-  onSelect, 
+export const Carousel: React.FC<CarouselProps> = ({
+  tournaments,
+  onSelect,
   orientation = 'horizontal',
   showControls = true,
 }) => {
@@ -23,25 +23,25 @@ export const Carousel: React.FC<CarouselProps> = ({
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
   const containerRef = useRef<HTMLDivElement>(null);
   const isDragging = useRef(false);
-  
+
   const cellCount = tournaments.length;
   const cellHeight = cellWidth * 1.4;
-  
+
   const isHorizontal = orientation === 'horizontal';
   const rotateFn = isHorizontal ? 'rotateY' : 'rotateX';
   const cellSize = isHorizontal ? cellWidth : cellHeight;
-  
+
   const theta = 360 / cellCount;
   const radius = Math.round(((cellSize + radiusGap) / 2) / Math.tan(Math.PI / cellCount));
 
   useEffect(() => {
     const handleResize = () => {
-        const width = Math.min(window.innerWidth * 0.8, 300); 
-        setCellWidth(width);
-        // Add more space between cards (larger radius) on wider screens
-        setRadiusGap(window.innerWidth > 768 ? 150 : 20);
+      const width = Math.min(window.innerWidth * 0.8, 300);
+      setCellWidth(width);
+      // Add more space between cards (larger radius) on wider screens
+      setRadiusGap(window.innerWidth > 768 ? 150 : 20);
     };
-    
+
     handleResize();
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
@@ -71,7 +71,7 @@ export const Carousel: React.FC<CarouselProps> = ({
 
   const handleCardClick = (tournament: Tournament) => {
     if (!isDragging.current) {
-        onSelect(tournament);
+      onSelect(tournament);
     }
   };
 
@@ -81,36 +81,36 @@ export const Carousel: React.FC<CarouselProps> = ({
   };
 
   const onPanEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-      // Small timeout to prevent the click event from firing immediately after release if they were dragging
-      setTimeout(() => {
-        isDragging.current = false;
-        setIsAutoPlaying(true);
-      }, 50);
+    // Small timeout to prevent the click event from firing immediately after release if they were dragging
+    setTimeout(() => {
+      isDragging.current = false;
+      setIsAutoPlaying(true);
+    }, 50);
 
-      const threshold = 50;
-      if (isHorizontal) {
-          if (info.offset.x < -threshold) next();
-          else if (info.offset.x > threshold) prev();
-      } else {
-          // For vertical: dragging up (negative y) goes to next?
-          // Visually dragging UP moves content UP, which acts like "scrolling down" or next item?
-          // Let's stick to standard swipe direction logic
-          if (info.offset.y < -threshold) next();
-          else if (info.offset.y > threshold) prev();
-      }
+    const threshold = 50;
+    if (isHorizontal) {
+      if (info.offset.x < -threshold) next();
+      else if (info.offset.x > threshold) prev();
+    } else {
+      // For vertical: dragging up (negative y) goes to next?
+      // Visually dragging UP moves content UP, which acts like "scrolling down" or next item?
+      // Let's stick to standard swipe direction logic
+      if (info.offset.y < -threshold) next();
+      else if (info.offset.y > threshold) prev();
+    }
   };
 
   return (
-    <div 
-        className="scene" 
-        ref={containerRef} 
-        style={{ 
-            width: cellWidth, 
-            height: cellHeight,
-            // Ensure touch actions don't scroll the page when swiping the carousel
-            touchAction: 'none' 
-        }}
-    > 
+    <div
+      className="scene"
+      ref={containerRef}
+      style={{
+        width: cellWidth,
+        height: cellHeight,
+        // Ensure touch actions don't scroll the page when swiping the carousel
+        touchAction: 'none'
+      }}
+    >
       <motion.div
         className="carousel"
         initial={false}
@@ -126,35 +126,35 @@ export const Carousel: React.FC<CarouselProps> = ({
         }}
       >
         {tournaments.map((tournament, index) => {
-             const cellAngle = theta * index;
-             return (
-                <div
-                    key={tournament.id}
-                    className="carousel-cell"
-                    style={{
-                        position: 'absolute',
-                        left: isHorizontal ? 10 : 0, 
-                        top: isHorizontal ? 10 : 0,
-                        width: isHorizontal ? cellWidth - 20 : cellWidth, 
-                        height: isHorizontal ? cellHeight - 20 : cellHeight,
-                        transform: `${rotateFn}(${cellAngle}deg) translateZ(${radius}px)`,
-                    }}
-                >
-                    <TournamentCard 
-                        tournament={tournament} 
-                        onClick={handleCardClick} 
-                    />
-                </div>
-             );
+          const cellAngle = theta * index;
+          return (
+            <div
+              key={tournament.id}
+              className="carousel-cell"
+              style={{
+                position: 'absolute',
+                left: isHorizontal ? 10 : 0,
+                top: isHorizontal ? 10 : 0,
+                width: isHorizontal ? cellWidth - 20 : cellWidth,
+                height: isHorizontal ? cellHeight - 20 : cellHeight,
+                transform: `${rotateFn}(${cellAngle}deg) translateZ(${radius}px)`,
+              }}
+            >
+              <TournamentCard
+                tournament={tournament}
+                onClick={handleCardClick}
+              />
+            </div>
+          );
         })}
       </motion.div>
 
-      
+
       {/* Optional: Navigation buttons if user wants them, or just rely on swipe */}
       {showControls && (
         <div style={{ position: 'absolute', bottom: '-60px', left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: '20px', zIndex: 100 }}>
-            <button className="nav-btn" onClick={prev}>&lt;</button>
-            <button className="nav-btn" onClick={next}>&gt;</button>
+          <button className="nav-btn" onClick={prev}>&lt;</button>
+          <button className="nav-btn" onClick={next}>&gt;</button>
         </div>
       )}
     </div>
