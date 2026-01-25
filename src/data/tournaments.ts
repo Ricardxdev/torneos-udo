@@ -82,7 +82,7 @@ export const tournaments: Tournament[] = [
   },
   {
     id: 'kpop-dh',
-    game: 'K-Pop Demon Hunter',
+    game: 'Hope on the stage',
     image: '/kpop.webp',
     date: 'Viernes 30 Enero 2026',
     time: '8:00 AM - 12:00 PM',

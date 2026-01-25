@@ -1,162 +1,76 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, type PanInfo } from 'framer-motion';
-import { TournamentCard } from './TournamentCard';
-import type { Tournament } from '../data/tournaments';
+import React, { useState, useRef } from 'react';
 import '../App.css';
 
+const MAX_Visibility = 2;
+
 interface CarouselProps {
-  tournaments: Tournament[];
-  onSelect: (tournament: Tournament) => void;
-  orientation?: 'horizontal' | 'vertical';
-  showControls?: boolean;
+  children: React.ReactNode;
 }
 
-export const Carousel: React.FC<CarouselProps> = ({
-  tournaments,
-  onSelect,
-  orientation = 'horizontal',
-  showControls = true,
-}) => {
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const [cellWidth, setCellWidth] = useState(210);
-  const [radiusGap, setRadiusGap] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const containerRef = useRef<HTMLDivElement>(null);
+export const Carousel: React.FC<CarouselProps> = ({ children }: CarouselProps) => {
+  const [active, setActive] = useState(2);
+  const [startX, setStartX] = useState(0);
   const isDragging = useRef(false);
 
-  const cellCount = tournaments.length;
-  const cellHeight = cellWidth * 1.4;
+  const count = React.Children.count(children);
 
-  const isHorizontal = orientation === 'horizontal';
-  const rotateFn = isHorizontal ? 'rotateY' : 'rotateX';
-  const cellSize = isHorizontal ? cellWidth : cellHeight;
-
-  const theta = 360 / cellCount;
-  const radius = Math.round(((cellSize + radiusGap) / 2) / Math.tan(Math.PI / cellCount));
-
-  useEffect(() => {
-    const handleResize = () => {
-      const width = Math.min(window.innerWidth * 0.8, 300);
-      setCellWidth(width);
-      // Add more space between cards (larger radius) on wider screens
-      setRadiusGap(window.innerWidth > 768 ? 150 : 20);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Auto-rotation logic
-  useEffect(() => {
-    if (!isAutoPlaying) return;
-    const interval = setInterval(() => {
-      setSelectedIndex(prev => prev + 1);
-    }, 3000);
-    return () => clearInterval(interval);
-  }, [isAutoPlaying]);
-
-  const rotateCarousel = () => {
-    const angle = theta * selectedIndex * -1;
-    return `translateZ(${-radius}px) ${rotateFn}(${angle}deg)`;
-  };
-
-  const prev = () => {
-    setSelectedIndex(prev => prev - 1);
-  };
-
-  const next = () => {
-    setSelectedIndex(prev => prev + 1);
-  };
-
-  const handleCardClick = (tournament: Tournament) => {
-    if (!isDragging.current) {
-      onSelect(tournament);
-    }
-  };
-
-  const onPanStart = () => {
+  // Manejar el inicio del deslizamiento
+  const handleStart = (e: React.MouseEvent | React.TouchEvent) => {
     isDragging.current = true;
-    setIsAutoPlaying(false);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    setStartX(clientX);
   };
 
-  const onPanEnd = (_e: MouseEvent | TouchEvent | PointerEvent, info: PanInfo) => {
-    // Small timeout to prevent the click event from firing immediately after release if they were dragging
-    setTimeout(() => {
-      isDragging.current = false;
-      setIsAutoPlaying(true);
-    }, 50);
+  // Manejar el movimiento
+  const handleMove = (e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging.current) return;
 
-    const threshold = 50;
-    if (isHorizontal) {
-      if (info.offset.x < -threshold) next();
-      else if (info.offset.x > threshold) prev();
-    } else {
-      // For vertical: dragging up (negative y) goes to next?
-      // Visually dragging UP moves content UP, which acts like "scrolling down" or next item?
-      // Let's stick to standard swipe direction logic
-      if (info.offset.y < -threshold) next();
-      else if (info.offset.y > threshold) prev();
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    const diff = startX - clientX;
+
+    // Si se desliza más de 50px, cambiamos de tarjeta
+    if (Math.abs(diff) > 50) {
+      if (diff > 0 && active < count - 1) {
+        setActive(prev => prev + 1);
+        isDragging.current = false; // Detener para que solo pase de una en una
+      } else if (diff < 0 && active > 0) {
+        setActive(prev => prev - 1);
+        isDragging.current = false;
+      }
     }
+  };
+
+  const handleEnd = () => {
+    isDragging.current = false;
   };
 
   return (
-    <div
-      className="scene"
-      ref={containerRef}
-      style={{
-        width: cellWidth,
-        height: cellHeight,
-        // Ensure touch actions don't scroll the page when swiping the carousel
-        touchAction: 'none'
-      }}
-    >
-      <motion.div
-        className="carousel"
-        initial={false}
-        animate={{ transform: rotateCarousel() }}
-        transition={{ type: "spring", stiffness: 50, damping: 20, mass: 1 }}
-        onPanStart={onPanStart}
-        onPanEnd={onPanEnd}
-        style={{
-          width: '100%',
-          height: '100%',
-          position: 'absolute',
-          transformStyle: 'preserve-3d',
-        }}
-      >
-        {tournaments.map((tournament, index) => {
-          const cellAngle = theta * index;
-          return (
-            <div
-              key={tournament.id}
-              className="carousel-cell"
-              style={{
-                position: 'absolute',
-                left: isHorizontal ? 10 : 0,
-                top: isHorizontal ? 10 : 0,
-                width: isHorizontal ? cellWidth - 20 : cellWidth,
-                height: isHorizontal ? cellHeight - 20 : cellHeight,
-                transform: `${rotateFn}(${cellAngle}deg) translateZ(${radius}px)`,
-              }}
-            >
-              <TournamentCard
-                tournament={tournament}
-                onClick={handleCardClick}
-              />
-            </div>
-          );
-        })}
-      </motion.div>
-
-
-      {/* Optional: Navigation buttons if user wants them, or just rely on swipe */}
-      {showControls && (
-        <div style={{ position: 'absolute', bottom: '-60px', left: 0, right: 0, display: 'flex', justifyContent: 'center', gap: '20px', zIndex: 100 }}>
-          <button className="nav-btn" onClick={prev}>&lt;</button>
-          <button className="nav-btn" onClick={next}>&gt;</button>
-        </div>
-      )}
-    </div>
+    <>
+      <div className="carousel-container" onMouseDown={handleStart} onMouseMove={handleMove} onMouseUp={handleEnd} onTouchStart={handleStart} onTouchMove={handleMove} onTouchEnd={handleEnd}>
+        {React.Children.map(children, (child, index) => (
+          <div className="card-container" style={{
+            '--active': index === active ? 1 : 0,
+            '--offset': (active - index) / 3,
+            '--direction': Math.sign(active - index),
+            '--abs-offset': Math.abs(active - index) / 3,
+            'pointerEvents': active === index ? 'auto' : 'none',
+            'opacity': Math.abs(active - index) >= MAX_Visibility ? "0" : "1",
+            'display': Math.abs(active - index) > MAX_Visibility ? 'none' : 'block',
+          } as React.CSSProperties}>
+            {child}
+          </div>
+        ))}
+      </div>
+      <div className="carousel-dots">
+        {React.Children.map(children, (_, index) => (
+          <button
+            key={index}
+            className={`dot ${index === active ? 'active' : ''}`}
+            onClick={() => setActive(index)}
+            aria-label={`Ver torneo ${index + 1}`}
+          />
+        ))}
+      </div>
+    </>
   );
 };
