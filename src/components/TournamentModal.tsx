@@ -11,12 +11,22 @@ interface Props {
 
 export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }) => {
   const [showRegistration, setShowRegistration] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     if (!selectedTournament) {
       setShowRegistration(false);
     }
   }, [selectedTournament]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const handleRegister = () => {
     if (selectedTournament?.whatsappLink) {
@@ -47,11 +57,11 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
             <button className="close-btn" onClick={onClose}>
               <X size={24} />
             </button>
-            
+
             <div className="modal-header">
-              <img 
-                src={selectedTournament.image} 
-                alt={selectedTournament.game} 
+              <img
+                src={selectedTournament.image}
+                alt={selectedTournament.game}
                 className="modal-image"
               />
               <div className="modal-title-container">
@@ -70,7 +80,7 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
                         <p>{selectedTournament.date}</p>
                       </div>
                     </div>
-                    
+
                     <div className="info-item">
                       <Clock className="info-icon" size={20} />
                       <div>
@@ -78,7 +88,7 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
                         <p>{selectedTournament.time}</p>
                       </div>
                     </div>
-                    
+
                     <div className="info-item">
                       <MapPin className="info-icon" size={20} />
                       <div>
@@ -120,81 +130,85 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
                   </div>
 
                   <div className="description-box">
-                      <p>{selectedTournament.description}</p>
+                    <p>{selectedTournament.description}</p>
                   </div>
 
-                {selectedTournament.prizes && selectedTournament.prizes.length > 0 && (
-                  <div className="details-section">
-                    <div className="detail-column" style={{ width: '100%' }}>
-                      <h3 className="section-title">
-                        <Trophy className="info-icon" size={18} />
-                        Premios
-                      </h3>
-                      <ul className="modal-list">
-                        {selectedTournament.prizes.map((prize, idx) => (
-                          <li key={idx}>{prize}</li>
-                        ))}
-                      </ul>
+                  {selectedTournament.prizes && selectedTournament.prizes.length > 0 && (
+                    <div className="details-section">
+                      <div className="detail-column" style={{ width: '100%' }}>
+                        <h3 className="title-prizes">
+                          <Trophy className="info-icon" size={18} />
+                          Premios
+                        </h3>
+                        <ul className="modal-list">
+                          {selectedTournament.prizes.map((prize, idx) => (
+                            <li key={idx}>{prize}</li>
+                          ))}
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                )}
+                  )}
 
-                  <button className="register-btn modal-action-btn" onClick={handleRegister}>
+                  {isMobile ? (
+                    <a className="register-link modal-action-btn" style={{ textDecoration: 'none' }} href={selectedTournament.whatsappLink} target="_blank">
+                      Inscribirse al Evento
+                    </a>
+                  ) : (<button className="register-btn modal-action-btn" onClick={handleRegister}>
                     Inscribirse al Evento
-                  </button>
+                  </button>)}
                 </>
               ) : (
-                <motion.div 
-                  className="registration-section" 
+                <motion.div
+                  className="registration-section"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}
                 >
-                    <button 
-                      onClick={() => setShowRegistration(false)}
-                      style={{ 
-                        alignSelf: 'flex-start', 
-                        background: 'none', 
-                        border: 'none', 
-                        color: 'var(--text-secondary)',
-                        cursor: 'pointer',
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '0.5rem',
-                        fontSize: '0.9rem',
-                        padding: 0
-                      }}
-                    >
-                      <ArrowLeft size={18} /> Volver
-                    </button>
+                  <button
+                    onClick={() => setShowRegistration(false)}
+                    style={{
+                      alignSelf: 'flex-start',
+                      background: 'none',
+                      border: 'none',
+                      color: 'var(--text-secondary)',
+                      cursor: 'pointer',
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      fontSize: '0.9rem',
+                      padding: 0
+                    }}
+                  >
+                    <ArrowLeft size={18} /> Volver
+                  </button>
 
-                    <h3 style={{ fontSize: '1.2rem', margin: '0 0 1rem 0' }}>Únete al grupo del torneo</h3>
+                  <h3 style={{ fontSize: '1.2rem', margin: '0 0 1rem 0' }}>Únete al grupo del torneo</h3>
 
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
-                        <QrCode size={18} />
-                        <span style={{ fontSize: '0.9rem' }}>Escanea para unirte al grupo</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-secondary)' }}>
+                    <QrCode size={18} />
+                    <span style={{ fontSize: '0.9rem' }}>Escanea para unirte al grupo</span>
+                  </div>
+
+                  {selectedTournament.qrCode && (
+                    <div className="qr-container" style={{ width: '200px', height: '200px', background: 'white', padding: '10px', borderRadius: '12px' }}>
+                      <img
+                        src={selectedTournament.qrCode}
+                        alt="QR WhatsApp"
+                        style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                      />
                     </div>
-                    
-                    {selectedTournament.qrCode && (
-                        <div className="qr-container" style={{ width: '200px', height: '200px', background: 'white', padding: '10px', borderRadius: '12px' }}>
-                            <img 
-                                src={selectedTournament.qrCode} 
-                                alt="QR WhatsApp" 
-                                style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
-                            />
-                        </div>
-                    )}
+                  )}
 
-                    <a 
-                        href={selectedTournament.whatsappLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="register-btn modal-action-btn"
-                        style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', width: '100%', marginTop: '1rem' }}
-                    >
-                        <MessageCircle size={20} />
-                        Unirse al Grupo de WhatsApp
-                    </a>
+                  <a
+                    href={selectedTournament.whatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="register-btn modal-action-btn"
+                    style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', textDecoration: 'none', width: '100%', marginTop: '1rem' }}
+                  >
+                    <MessageCircle size={20} />
+                    Unirse al Grupo de WhatsApp
+                  </a>
                 </motion.div>
               )}
             </div>
