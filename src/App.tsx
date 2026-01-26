@@ -8,7 +8,6 @@ import './App.css'
 
 function App() {
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null)
-  const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
   const [showNotice, setShowNotice] = useState(false)
 
   useEffect(() => {
@@ -58,7 +57,6 @@ function App() {
         <Carousel 
           tournaments={carouselTournaments} 
           onSelect={setSelectedTournament} 
-          orientation={orientation}
           showControls={false}
         />
 
