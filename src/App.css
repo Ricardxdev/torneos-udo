@@ -624,3 +624,20 @@
   background: linear-gradient(90deg, transparent, #a060ff, transparent);
   border-radius: 2px;
 }
+
+/* Responsive Header adjustments */
+@media (max-width: 768px) {
+  .app-header {
+    padding: 0.8rem;
+  }
+
+  .udo-logo {
+    height: 50px;
+  }
+
+  .app-title {
+    font-size: 1.4rem;
+    margin-left: 0.8rem;
+    letter-spacing: 1px;
+  }
+}
