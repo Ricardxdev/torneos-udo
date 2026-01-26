@@ -15,7 +15,7 @@ export const Carousel: React.FC<CarouselProps> = ({
   tournaments, 
   onSelect, 
   orientation = 'horizontal',
-  showControls = true,
+  showControls = false,
 }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [cellWidth, setCellWidth] = useState(210);
@@ -39,7 +39,7 @@ export const Carousel: React.FC<CarouselProps> = ({
         const width = Math.min(window.innerWidth * 0.8, 300); 
         setCellWidth(width);
         // Add more space between cards (larger radius) on wider screens
-        setRadiusGap(window.innerWidth > 768 ? 150 : 20);
+        setRadiusGap(window.innerWidth > 768 ? 150 : 10);
     };
     
     handleResize();
