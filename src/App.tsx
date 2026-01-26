@@ -1,12 +1,30 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { tournaments, type Tournament } from './data/tournaments'
 import { Carousel } from './components/Carousel'
+import { TournamentCard } from './components/TournamentCard'
 import { TournamentModal } from './components/TournamentModal'
+import { NoticeModal } from './components/NoticeModal'
 import './App.css'
 
 function App() {
   const [selectedTournament, setSelectedTournament] = useState<Tournament | null>(null)
   const [orientation, setOrientation] = useState<'horizontal' | 'vertical'>('horizontal')
+  const [showNotice, setShowNotice] = useState(false)
+
+  useEffect(() => {
+    const hasSeenNotice = localStorage.getItem('hasSeenRescheduleNotice')
+    if (!hasSeenNotice) {
+      setShowNotice(true)
+    }
+  }, [])
+
+  const handleCloseNotice = () => {
+    setShowNotice(false)
+    localStorage.setItem('hasSeenRescheduleNotice', 'true')
+  }
+
+  const kpopTournament = tournaments.find(t => t.id === 'kpop-dh')
+  const carouselTournaments = tournaments.filter(t => t.id !== 'kpop-dh')
 
   return (
     <div className="container">
@@ -15,7 +33,7 @@ function App() {
         <h1 className="app-title">Torneos y Eventos</h1>
       </header>
 
-      <div className="controls">
+      {/* <div className="controls">
         <label>
           <input 
             type="radio" 
@@ -34,16 +52,27 @@ function App() {
             onChange={() => setOrientation('vertical')} 
           /> Vertical
         </label>
-      </div>
+      </div> */}
 
       <main className="gallery">
         <Carousel 
-          tournaments={tournaments} 
+          tournaments={carouselTournaments} 
           onSelect={setSelectedTournament} 
           orientation={orientation}
           showControls={false}
         />
-        <p className="cta-text">Selecciona el evento del cual deseas formar parte</p>
+
+        {kpopTournament && (
+          <div className="special-event-container">
+            <h2 className="section-title">Evento Especial</h2>
+            <div className="special-card-wrapper">
+              <TournamentCard 
+                tournament={kpopTournament} 
+                onClick={setSelectedTournament} 
+              />
+            </div>
+          </div>
+        )}
 
         <section className="info-section">
           <h2>Sobre el Evento</h2>
@@ -51,7 +80,7 @@ function App() {
             Somos estudiantes de la asignatura de <strong>Organización y Estructura del Computador</strong> en La Universidad de Oriente Núcleo Nueva Esparta (UDONE).
           </p>
           <p>
-            Estaremos realizando eventos durante la semana del <strong>26 al 30 de enero</strong> con el fin de recaudar fondos para financiar nuestro proyecto de realizar una impresora 3d casera.
+            Estaremos realizando eventos durante la semana del <strong>2 al 6 de febrero</strong> con el fin de recaudar fondos para financiar nuestro proyecto de realizar una impresora 3d casera.
           </p>
         </section>
       </main>
@@ -59,6 +88,11 @@ function App() {
       <TournamentModal 
         selectedTournament={selectedTournament} 
         onClose={() => setSelectedTournament(null)} 
+      />
+      
+      <NoticeModal 
+        isOpen={showNotice} 
+        onClose={handleCloseNotice} 
       />
     </div>
   )

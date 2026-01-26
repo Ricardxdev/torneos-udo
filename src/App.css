@@ -502,3 +502,125 @@
   cursor: pointer;
   accent-color: #646cff;
 }
+
+/* Tournament Card Actions */
+.card-actions {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  height: 48px; /* Increase hit area slightly */
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 50; /* Higher z-index */
+  opacity: 1 !important;
+  transition: opacity 0.3s ease;
+}
+
+.banner-card:hover .card-actions {
+  opacity: 1;
+}
+
+/* On mobile/touch devices, always show or ensure there's a way to see it without hover if needed. 
+   But usually hover works on tap for mobile in many cases, or we can make it always visible. 
+   For now, we'll keep it hover-based as requested or make it always visible if preferred. 
+   Given "a cada card quiero q le pongas...", usually implies visible part of the card design.
+   Let's make it always visible but semi-transparent as requested.
+*/
+
+.card-actions {
+  opacity: 1 !important; /* Force visible */
+}
+
+.card-action-btn {
+  flex: 1;
+  border: none;
+  background: rgba(20, 20, 20, 0.5); /* Semi-transparent background */
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  outline: none;
+}
+
+.card-action-btn:hover {
+  background: rgba(130, 80, 230, 0.8);
+  color: #fff;
+}
+
+.join-btn {
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom-left-radius: 12px; /* Match card radius if card has it, usually handled by overflow:hidden on card */
+}
+
+.details-btn {
+  border-bottom-right-radius: 12px;
+}
+
+/* Special Event Section */
+.special-event-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem 0 3rem 0;
+  padding: 0 1rem;
+}
+
+.special-card-wrapper {
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1 / 1.4;
+  position: relative;
+  perspective: 1000px;
+}
+
+/* Ensure the card fills the wrapper */
+.special-card-wrapper .banner-card {
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 12px;
+  box-shadow: 
+    0 0 20px rgba(160, 96, 255, 0.3),
+    0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.special-card-wrapper:hover .banner-card {
+  box-shadow: 
+    0 0 30px rgba(160, 96, 255, 0.5),
+    0 15px 40px rgba(0, 0, 0, 0.6);
+}
+
+.section-title {
+  color: #a060ff;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  text-align: center;
+  text-shadow: 
+    0 0 10px rgba(160, 96, 255, 0.6),
+    0 0 20px rgba(160, 96, 255, 0.3);
+  position: relative;
+  display: inline-block;
+}
+
+.section-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #a060ff, transparent);
+  border-radius: 2px;
+}
