@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Calendar, Clock, MapPin, Trophy, MessageCircle, QrCode, ArrowLeft, Monitor, Gamepad2, Swords } from 'lucide-react';
+import { X, Calendar, Clock, MapPin, Trophy, MessageCircle, QrCode, ArrowLeft, Monitor, Gamepad2, Swords, DollarSign, Info } from 'lucide-react';
 import type { Tournament } from '../data/tournaments';
 
 interface Props {
@@ -117,10 +117,26 @@ export const TournamentModal: React.FC<Props> = ({ selectedTournament, onClose }
                         </div>
                       </div>
                     )}
+
+                    {selectedTournament.price !== undefined && (
+                      <div className="info-item">
+                        <DollarSign className="info-icon" size={20} />
+                        <div>
+                          <span className="info-label">Inscripción</span>
+                          <p>{selectedTournament.price}$</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <div className="description-box">
                       <p>{selectedTournament.description}</p>
+                      {selectedTournament.registrationNotes && (
+                        <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem', alignItems: 'start', color: 'var(--text-secondary)' }}>
+                          <Info size={18} style={{ flexShrink: 0, marginTop: '3px' }} />
+                          <p style={{ margin: 0, fontSize: '0.95em' }}>{selectedTournament.registrationNotes}</p>
+                        </div>
+                      )}
                   </div>
 
                 {selectedTournament.prizes && selectedTournament.prizes.length > 0 && (
